@@ -59,6 +59,7 @@
         <input type="text" id="birthplace" placeholder="Например: Киев">
     </div>
     <button onclick="submitData()">🔮 Рассчитать знак</button>
+    
 
     <p class="note">Если не знаешь точное время, оставь 12:00 и выбери "Не знаю время" — будет использован Лунный знак</p>
 
@@ -88,6 +89,7 @@
                 unknown_time: unknownTime
             };
 
+            tg.sendData(console.log("📤 Надсилаю дані в Telegram:", data));
             tg.sendData(JSON.stringify(data));
             tg.close();
         }
