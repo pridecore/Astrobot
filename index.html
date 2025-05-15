@@ -65,32 +65,40 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-
+    
         document.getElementById("unknown_time").addEventListener("change", function() {
             const timeInput = document.getElementById("birthtime");
             timeInput.disabled = this.checked;
         });
-
+    
         function submitData() {
             const birthdate = document.getElementById("birthdate").value;
             const birthtime = document.getElementById("birthtime").value;
             const birthplace = document.getElementById("birthplace").value;
             const unknownTime = document.getElementById("unknown_time").checked;
-
+    
             if (!birthdate || !birthplace) {
                 alert("Пожалуйста, заполни все поля");
                 return;
             }
-
+    
             const data = {
                 birthdate,
                 birthtime: unknownTime ? "12:00" : birthtime,
                 birthplace,
                 unknown_time: unknownTime
             };
-            tg.sendData(JSON.stringify(data));
-            tg.close();
+    
+            console.log("📤 Надсилаємо в Telegram WebApp:", data);
+    
+            if (tg && tg.sendData) {
+                tg.sendData(JSON.stringify(data));
+                tg.close();
+            } else {
+                alert("❗ Telegram WebApp не ініціалізований. Відкрий через Telegram.");
+                console.warn("❌ Telegram WebApp не знайдено");
+            }
         }
     </script>
-</body>
+    </body>
 </html>
