@@ -1,166 +1,261 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Астрокалькулятор</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --bg-color: #0f0f1a;
-            --card-color: #1e1e2e;
-            --accent: #e0a96d;
-            --text-light: #fdf6e3;
-            --text-muted: #aaa;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            background-image: url('https://raw.githubusercontent.com/pridecore/Astrobot/main/img/background_astrocalc.jpg');
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 20px;
-            margin: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--accent);
-            font-size: 26px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            background: var(--card-color);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(224, 169, 109, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
-
-        input[type="date"],
-        input[type="time"],
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #fff;
-            color: #000;
-            font-size: 16px;
-            box-shadow: 0 0 4px rgba(255,255,255,0.1);
-        }
-
-        input[type="checkbox"] {
-            transform: scale(1.2);
-            margin-right: 8px;
-        }
-
-        button {
-            background-color: var(--accent);
-            color: #000;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            width: 100%;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #d88e42;
-        }
-
-        .note {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .orbit-container {
+		:root {
+			--bg-color: #1b1b2f;
+			--accent: #f2c572;
+			--text-light: #fefefe;
+			--text-muted: #aaa;
+		}
+	
+		body {
+			margin: 0;
+			padding: 20px;
+			font-family: 'Georgia', serif;
+			background: url("https://raw.githubusercontent.com/pridecore/Astrobot/main/img/background_astrocalc.jpg") no-repeat center center fixed;
+			background-size: cover;
+			color: var(--text-light);
+			overflow: hidden;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			position: relative;
+		}
+		.overlay {
             position: absolute;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 0;
         }
 
-        .planet {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 6px var(--accent);
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
-        }
-
-        .orbit-container .planet:nth-child(1) { animation: rotate 16s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(2) { animation: rotate 18s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(3) { animation: rotate 20s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(4) { animation: rotate 22s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(5) { animation: rotate 24s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(6) { animation: rotate 26s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(7) { animation: rotate 28s linear infinite; top: 50%; left: 50%; }
-        .orbit-container .planet:nth-child(8) { animation: rotate 30s linear infinite; top: 50%; left: 50%; }
-
-    </style>
+	
+		h2 {
+			text-align: center;
+			color: var(--accent);
+			margin-bottom: 20px;
+			padding-top: 50px;
+			position: relative;
+		}
+	
+		.form-group {
+			background: rgba(0, 0, 0, 0.6);
+			padding: 16px;
+			border-radius: 12px;
+			margin-bottom: 16px;
+			box-shadow: 0 0 12px rgba(255, 204, 112, 0.2);
+			position: relative;
+			z-index: 2;
+		}
+	
+		label {
+			display: block;
+			margin-bottom: 8px;
+			font-size: 15px;
+		}
+	
+		input[type="date"],
+		input[type="time"],
+		input[type="text"] {
+			width: 90%;
+			padding: 12px;
+			border-radius: 8px;
+			border: none;
+			font-size: 16px;
+			background: #ffffffcc;
+			color: #000;
+		}
+	
+		input[type="checkbox"] {
+			transform: scale(1.2);
+			margin-right: 8px;
+		}
+	
+		button {
+			background-color: var(--accent);
+			color: #000;
+			width: 100%;
+			padding: 14px;
+			border: none;
+			border-radius: 10px;
+			font-size: 18px;
+			font-weight: bold;
+			margin-top: 12px;
+			cursor: pointer;
+			transition: 0.3s;
+			position: relative;
+		}
+	
+		button:hover {
+			background-color: #e8b95a;
+		}
+	
+		.note {
+			font-size: 13px;
+			color: var(--text-muted);
+			margin-top: 12px;
+			text-align: center;
+			position: relative;
+			color: var(--text-light);
+			font-weight: bold;
+		}
+	
+		.orbit-wrapper {
+			position: relative;
+			width: 100%;
+			height: 340px;
+			margin-top: 40px;
+			transform: rotateX(25deg); /* ← ЦЕ ТЕ, ЩО НАКИЛЯЄ 3D */
+			transform-style: preserve-3d;
+			perspective: 1000px; /* глибина 3D */
+		}
+	
+		.orbit {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform-style: preserve-3d;
+			transform: translate(-50%, -50%) rotateX(45deg);
+			border: 1px dashed rgba(255, 204, 112, 0.2);
+			border-radius: 50%;
+		}
+	
+		.planet-container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform-origin: center;
+			animation: rotate 20s linear infinite;
+			transform-style: preserve-3d;
+		}
+	
+		@keyframes rotate {
+			0%   { transform: rotate(0deg) translateX(var(--radius)) rotate(0deg); }
+			100% { transform: rotate(360deg) translateX(var(--radius)) rotate(-360deg); }
+		}
+	
+		/* Планети сферичні + освітлення */
+		.planet {
+			border-radius: 50%;
+			background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), var(--color));
+			box-shadow:
+				inset -4px -4px 8px rgba(0, 0, 0, 0.4),
+				0 0 6px var(--color);
+		}
+	
+		/* Індивідуальні кольори та розміри */
+		.planet.mercury { --color: #b1b1b1; width: 10px; height: 10px; }
+		.planet.venus   { --color: #e1c699; width: 12px; height: 12px; }
+		.planet.earth   { --color: #2e80d3; width: 14px; height: 14px; }
+		.planet.mars    { --color: #c1440e; width: 12px; height: 12px; }
+		.planet.jupiter { --color: #e3aa7e; width: 18px; height: 18px; }
+		.planet.saturn  { --color: #d8b76d; width: 16px; height: 16px; }
+		.planet.uranus  { --color: #6ee7f8; width: 13px; height: 13px; }
+		.planet.neptune { --color: #4776b4; width: 13px; height: 13px; }
+	
+		/* Кільця Сатурна */
+		.planet.saturn::before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 28px;
+			height: 6px;
+			background: rgba(255, 220, 150, 0.3);
+			border-radius: 50%;
+			transform: translate(-50%, -50%) rotate(25deg);
+			z-index: -1;
+		}
+	
+		/* Орбіти */
+		.orbit:nth-child(1)  { width: 100px;  height: 100px; }
+		.orbit:nth-child(2)  { width: 130px;  height: 130px; }
+		.orbit:nth-child(3)  { width: 160px;  height: 160px; }
+		.orbit:nth-child(4)  { width: 190px;  height: 190px; }
+		.orbit:nth-child(5)  { width: 220px;  height: 220px; }
+		.orbit:nth-child(6)  { width: 250px;  height: 250px; }
+		.orbit:nth-child(7)  { width: 280px;  height: 280px; }
+		.orbit:nth-child(8)  { width: 310px;  height: 310px; }
+	
+		.planet-container:nth-child(9)  { --radius: 50px;  animation-duration: 12s; }
+		.planet-container:nth-child(10) { --radius: 65px;  animation-duration: 14s; }
+		.planet-container:nth-child(11) { --radius: 80px;  animation-duration: 16s; }
+		.planet-container:nth-child(12) { --radius: 95px;  animation-duration: 18s; }
+		.planet-container:nth-child(13) { --radius: 110px; animation-duration: 20s; }
+		.planet-container:nth-child(14) { --radius: 125px; animation-duration: 22s; }
+		.planet-container:nth-child(15) { --radius: 140px; animation-duration: 24s; }
+		.planet-container:nth-child(16) { --radius: 155px; animation-duration: 26s; }
+	</style>
 </head>
 <body>
-    <h2>🔭 Веди свои данные рождения</h2>
+    <div class="overlay"></div>
+    <div class="container">
+        <h2>🪐 Введи свои данные рождения</h2>
 
-    <div class="form-group">
-        <label for="birthdate">📅 Дата рождения</label>
-        <input type="date" id="birthdate">
+        <div class="form-group">
+            <label for="birthdate">📅 Дата рождения</label>
+            <input type="date" id="birthdate" onclick="this.showPicker?.()">
+        </div>
+
+        <div class="form-group">
+            <label for="birthtime">⏰ Время рождения</label>
+            <input type="time" id="birthtime" value="12:00" onclick="this.showPicker?.()">
+            <label><input type="checkbox" id="unknown_time"> Не знаю время</label>
+        </div>
+
+        <div class="form-group">
+            <label for="birthplace">📍 Город рождения</label>
+            <input type="text" id="birthplace" placeholder="Например: Киев" onfocus="this.select()">
+        </div>
+
+        <button onclick="submitData()">🔮 Рассчитать знак</button>
+
+        <p class="note">Если не знаешь точное время, оставь 12:00 и выбери "Не знаю время" — будет использован Лунный знак</p>
     </div>
 
-    <div class="form-group">
-        <label for="birthtime">⏰ Время рождения</label>
-        <input type="time" id="birthtime" value="12:00">
-        <label style="margin-top:10px;"><input type="checkbox" id="unknown_time"> Не знаю время</label>
-    </div>
+    <!-- Планетарна система -->
+	<div class="orbit-wrapper">
+		<!-- Орбіти -->
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
+		<div class="orbit"></div>
 
-    <div class="form-group">
-        <label for="birthplace">📍 Город рождения</label>
-        <input type="text" id="birthplace" placeholder="Например: Киев">
-    </div>
-
-    <button onclick="submitData()">🔮 Рассчитать знак</button>
-
-    <p class="note">Если не знаешь точное время, укажи 12:00 и поставь галочку — будет использован Лунный знак</p>
-
-    <div class="orbit-container">
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-        <div class="planet"></div>
-    </div>
+		<!-- Планети -->
+		<div class="planet-container">
+			<div class="planet mercury"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet venus"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet earth"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet mars"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet jupiter"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet saturn"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet uranus"></div>
+		</div>
+		<div class="planet-container">
+			<div class="planet neptune"></div>
+		</div>
+	</div>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -188,14 +283,11 @@
                 unknown_time: unknownTime
             };
 
-            console.log("📤 Надсилаємо в Telegram WebApp:", data);
-
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(data));
                 tg.close();
             } else {
-                alert("❗ Telegram WebApp не ініціалізований. Відкрий через Telegram.");
-                console.warn("❌ Telegram WebApp не знайдено");
+                alert("❗ Открой через Telegram");
             }
         }
     </script>
