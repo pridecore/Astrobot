@@ -6,91 +6,137 @@
     <title>Астрокалькулятор</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f5f5f5;
+        :root {
+            --bg-color: #1b1b2f;
+            --card-color: #27293d;
+            --accent: #e0a96d;
+            --text-light: #f0eada;
+            --text-muted: #aaa;
         }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            padding: 20px;
+            margin: 0;
+        }
+
         h2 {
             text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+            font-size: 26px;
         }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            background: var(--card-color);
+            padding: 15px;
+            border-radius: 10px;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--text-light);
         }
-        input, select {
+
+        input[type="date"],
+        input[type="time"],
+        input[type="text"] {
             width: 100%;
             padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px;
+            border-radius: 6px;
             border: none;
-            border-radius: 5px;
-            width: 100%;
+            background: #fff;
+            color: #000;
             font-size: 16px;
         }
+
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: #000;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #d8914b;
+        }
+
         .note {
             font-size: 14px;
-            color: #666;
-            margin-top: 10px;
+            color: var(--text-muted);
+            margin-top: 15px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h2>🪐 Введи свои данные</h2>
+    <h2>🪐 Введи свои данные рождения</h2>
+
     <div class="form-group">
-        <label for="birthdate">Дата рождения</label>
+        <label for="birthdate">📅 Дата рождения</label>
         <input type="date" id="birthdate">
     </div>
+
     <div class="form-group">
-        <label for="birthtime">Время рождения</label>
+        <label for="birthtime">⏰ Время рождения</label>
         <input type="time" id="birthtime" value="12:00">
-        <label><input type="checkbox" id="unknown_time"> Не знаю время</label>
+        <label style="margin-top:10px;"><input type="checkbox" id="unknown_time"> Не знаю время</label>
     </div>
+
     <div class="form-group">
-        <label for="birthplace">Город рождения</label>
+        <label for="birthplace">📍 Город рождения</label>
         <input type="text" id="birthplace" placeholder="Например: Киев">
     </div>
+
     <button onclick="submitData()">🔮 Рассчитать знак</button>
-    
 
     <p class="note">Если не знаешь точное время, оставь 12:00 и выбери "Не знаю время" — будет использован Лунный знак</p>
 
     <script>
         const tg = window.Telegram.WebApp;
-    
-        document.getElementById("unknown_time").addEventListener("change", function() {
+
+        document.getElementById("unknown_time").addEventListener("change", function () {
             const timeInput = document.getElementById("birthtime");
             timeInput.disabled = this.checked;
         });
-    
+
         function submitData() {
             const birthdate = document.getElementById("birthdate").value;
             const birthtime = document.getElementById("birthtime").value;
             const birthplace = document.getElementById("birthplace").value;
             const unknownTime = document.getElementById("unknown_time").checked;
-    
+
             if (!birthdate || !birthplace) {
                 alert("Пожалуйста, заполни все поля");
                 return;
             }
-    
+
             const data = {
                 birthdate,
                 birthtime: unknownTime ? "12:00" : birthtime,
                 birthplace,
                 unknown_time: unknownTime
             };
-    
+
             console.log("📤 Надсилаємо в Telegram WebApp:", data);
-    
+
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(data));
                 tg.close();
@@ -100,5 +146,5 @@
             }
         }
     </script>
-    </body>
+</body>
 </html>
