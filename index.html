@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Астрокалькулятор</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #1b1b2f;
-            --card-color: #27293d;
+            --bg-color: #0f0f1a;
+            --card-color: #1e1e2e;
             --accent: #e0a96d;
-            --text-light: #f0eada;
+            --text-light: #fdf6e3;
             --text-muted: #aaa;
         }
 
         body {
             font-family: 'Georgia', serif;
             background-image: url('https://raw.githubusercontent.com/pridecore/Astrobot/main/img/background_astrocalc.jpg');
-            background-size: cover;
-            background-position: center;
-            color: var(--text-light);
             padding: 20px;
             margin: 0;
             position: relative;
+            overflow: hidden;
         }
 
         h2 {
@@ -35,30 +33,30 @@
         .form-group {
             margin-bottom: 20px;
             background: var(--card-color);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(224, 169, 109, 0.3);
-            z-index: 2;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(224, 169, 109, 0.2);
             position: relative;
+            z-index: 2;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-size: 16px;
-            color: var(--text-light);
+            font-size: 15px;
         }
 
         input[type="date"],
         input[type="time"],
         input[type="text"] {
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 12px;
+            border-radius: 8px;
             border: none;
             background: #fff;
             color: #000;
             font-size: 16px;
+            box-shadow: 0 0 4px rgba(255,255,255,0.1);
         }
 
         input[type="checkbox"] {
@@ -71,7 +69,7 @@
             color: #000;
             padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             width: 100%;
             font-size: 18px;
             font-weight: bold;
@@ -81,56 +79,55 @@
         }
 
         button:hover {
-            background-color: #d8914b;
+            background-color: #d88e42;
         }
 
         .note {
             font-size: 14px;
             color: var(--text-muted);
-            margin-top: 15px;
+            margin-top: 20px;
             text-align: center;
         }
 
-        /* Планети — анімація */
-        .planets-background {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            z-index: 0;
+        .orbit-container {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .planet {
             position: absolute;
             width: 16px;
             height: 16px;
-            background-color: var(--accent);
             border-radius: 50%;
+            background: var(--accent);
             box-shadow: 0 0 6px var(--accent);
-            animation: orbit 20s linear infinite;
         }
 
-        /* Задаємо відмінності */
-        .planet:nth-child(1) { left: 10%; animation-duration: 18s; top: 30%; }
-        .planet:nth-child(2) { left: 20%; animation-duration: 22s; top: 60%; }
-        .planet:nth-child(3) { left: 30%; animation-duration: 25s; top: 45%; }
-        .planet:nth-child(4) { left: 40%; animation-duration: 17s; top: 70%; }
-        .planet:nth-child(5) { left: 50%; animation-duration: 30s; top: 40%; }
-        .planet:nth-child(6) { left: 60%; animation-duration: 28s; top: 65%; }
-        .planet:nth-child(7) { left: 70%; animation-duration: 23s; top: 50%; }
-        .planet:nth-child(8) { left: 80%; animation-duration: 26s; top: 35%; }
-
-        @keyframes orbit {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        @keyframes rotate {
+            from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
         }
+
+        .orbit-container .planet:nth-child(1) { animation: rotate 16s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(2) { animation: rotate 18s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(3) { animation: rotate 20s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(4) { animation: rotate 22s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(5) { animation: rotate 24s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(6) { animation: rotate 26s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(7) { animation: rotate 28s linear infinite; top: 50%; left: 50%; }
+        .orbit-container .planet:nth-child(8) { animation: rotate 30s linear infinite; top: 50%; left: 50%; }
+
     </style>
 </head>
 <body>
-    <h2>🪐 Введи свои данные рождения</h2>
+    <h2>🔭 Веди свои данные рождения</h2>
 
     <div class="form-group">
         <label for="birthdate">📅 Дата рождения</label>
@@ -150,10 +147,9 @@
 
     <button onclick="submitData()">🔮 Рассчитать знак</button>
 
-    <p class="note">Если не знаешь точное время, оставь 12:00 и выбери "Не знаю время" — будет использован Лунный знак</p>
+    <p class="note">Если не знаешь точное время, укажи 12:00 и поставь галочку — будет использован Лунный знак</p>
 
-    <!-- Планети внизу -->
-    <div class="planets-background">
+    <div class="orbit-container">
         <div class="planet"></div>
         <div class="planet"></div>
         <div class="planet"></div>
